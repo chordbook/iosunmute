@@ -4,19 +4,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5">
 		<title>unmute.js Test Page</title>
-
-		<script src="unmute.js"></script>
 	</head>
 	<body>
 		<button id="btn" style="display: none">Play Track</button>
 		<div id="loading">Loading. Please wait..</div>
 		<div id="err" style="display: none"></div>
 
+		<script type="module">
+			import iosunmute from "./src/iosunmute.ts";
 
-
-		<script>
 			let context = new (window.AudioContext || window.webkitAudioContext)();
-			unmute(context);
+			iosunmute(context);
 
 			let source;
 
