@@ -44,7 +44,7 @@ Give it a run in your favorite janky ios browser, safari. Let the track load and
 ### CDN
 
 ```html
-<script src="https://unpkg.com/iosunmute">
+<script src="https://unpkg.com/iosunmute"></script>
 ```
 
 ### NPM
