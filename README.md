@@ -1,7 +1,7 @@
-# unmute.js
+# iosunmute.js
 Enables web audio playback with the ios mute switch on
 
-unmute is a disgusting hack that helps..
+iosunmute is a disgusting hack that helps..
 	1. automatically resume web audio contexts on user interaction
 	2. automatically pause and resume web audio when the page is hidden.
 	3. ios only: web audio play on the media channel rather than the ringer channel
@@ -19,7 +19,7 @@ iOS Only: Hiding the media playback widgets on iOS is accomplished by completely
 html audio track whenever the app isn't in the foreground.
 
 iOS detection is done by looking at the user agent for iPhone, iPod, iPad. This detects the phones fine, but
-apple likes to pretend their new iPads are computers (lol right..). Newer iPads are detected by finding 
+apple likes to pretend their new iPads are computers (lol right..). Newer iPads are detected by finding
 mac osx in the user agent and then checking for touch support by testing navigator.maxTouchPoints > 0.
 
 This code isn't optimized in any fashion, it is just whipped up to help someone out on stack overflow, its just meant as an example.
@@ -39,37 +39,59 @@ See: https://spencer-evans.com/share/github/unmute/
 
 Give it a run in your favorite janky ios browser, safari. Let the track load and hit play. Audio should be playing. It should pause if you switch tabs / minimize the window / lock the device and resume when you return to it. If you're on ios it should playing even with the mute switch on AND you should not see a media playback widget. Enjoy.
 
-## Usage
-- Load the unmute.js or unmute.min.js script.
-- After it is loaded and you've created a web audio context, call unmute(myContext); to enable unmute.
-- Play tracks using the context like you normally would.
-- You can optionally specify to allow background playback or force iOS behavior on all devices and browsers, neither is recommended but may be required for some use cases.
+## Installation
+
+### CDN
+
+```html
+<script src="https://unpkg.com/iosunmute">
+```
+
+### NPM
+
+```console
+npm install iosunmute
+```
 
 ```javascript
-// Create an audio context instance if WebAudio is supported
-let context = (window.AudioContext || window.webkitAudioContext) ?
-  new (window.AudioContext || window.webkitAudioContext)() : null;
-  
-// Decide on some parameters
-let allowBackgroundPlayback = false; // default false, recommended false
-let forceIOSBehavior = false; // default false, recommended false
-// Pass it to unmute if the context exists... ie WebAudio is supported
-if (context)
-{
-  // If you need to be able to disable unmute at a later time, you can use the returned handle's dispose() method
-  // if you don't need to do that (most folks won't) then you can simply ignore the return value
-  let unmuteHandle = unmute(context, allowBackgroundPlayback, forceIOSBehavior);
-  
-  // ... at some later point you wish to STOP unmute control
-  unmuteHandle.dispose();
-  unmuteHandle = null;
-  
-}
+// ESM
+import iosunmute from 'iosunmute';
+
+// CJS
+const iosunmute = require('iosunmute');
+```
+
+## Usage
+
+After installing, simply pass the `AudioContext` that you want to unmute to the `iosunmute` function:
+
+```javascript
+const context = new AudioContext();
+iosunmute(context);
+
+// Now you can play tracks using the context like you normally would.
+```
+
+You can optionally specify to allow background playback or force iOS behavior on all devices and browsers, neither is recommended but may be required for some use cases.
+
+```javascript
+const allowBackgroundPlayback = false // default false, recommended false
+const forceIOSBehavior = false        // default false, recommended false
+iosunmute(context, allowBackgroundPlayback, forceIOSBehavior);
+```
+
+If you need to be able to disable `iosunmute` at a later time, you can use the returned handle's `dispose()` method.
+
+```javascript
+let unmuteHandle = iosunmute(context);
+// ... at some later point you wish to STOP unmute control
+unmuteHandle.dispose();
+unmuteHandle = null;
 ```
 
 ## Troubleshooting
 - If you run into errors creating an AudioContext, you might be using a browser that doesn't support WebAudio (Thanks Internet Explorer!). See: https://caniuse.com/#feat=audio-api
-- If unmute is throwing errors, there is a strong chance that something other than a real instance of AudioContext was passed to unmute. 
+- If unmute is throwing errors, there is a strong chance that something other than a real instance of AudioContext was passed to unmute.
     - Are you using any other audio frameworks? They often wrap the AudioContext with their own version of it. That won't work. unmute needs the real mccoy. Check the other audio framework to see if that is the case. They probably offer some method of getting the real context.
     - Are you using a polyfill for AudioContext? If so, it better be the real thing! Polyfilling with an empty function will not work.
     - Are you using a polyfill framework? If so, you'll need to check that WebAudio is actually supported and not being polyfilled with an empty function.
