@@ -1,0 +1,30 @@
+{
+  "name": "iosunmute",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "module": "dist/iosunmute.js",
+  "main": "dist/iosunmute.cjs",
+  "unpkg": "dist/iosunmute.global.js",
+  "exports": {
+    "import": "./dist/iosunmute.js",
+    "require": "./dist/iosunmute.cjs"
+  },
+  "types": "dist/iosunmute.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "dev": "vite",
+    "prepare": "tsup src/iosunmute.ts --format iife,esm,cjs --minify --dts --sourcemap",
+    "build": "vite build --outDir demo",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^5.20.1",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.10"
+  }
+}

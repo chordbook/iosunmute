@@ -1,32 +1,34 @@
 /**
  * @file unmute.ts
  * @author Spencer Evans evans.spencer@gmail.com
- * 
+ *
  * unmute is a disgusting hack that helps..
  * 	1) automatically resume web audio contexts on user interaction
  * 	2) automatically pause and resume web audio when the page is hidden.
  * 	3) ios only: web audio play on the media channel rather than the ringer channel
  * 	4) ios only: disable the media playback widget and airplay when:
- * 
+ *
  * WebAudio is automatically resumed by checking context state and resuming whenever possible.
- * 
+ *
  * WebAudio pausing is accomplished by watching the page visilibility API. When on iOS, page focus
  * is also used to determine if the page is in the foreground because Apple's page vis api implementation is buggy.
- * 
+ *
  * iOS Only: Forcing WebAudio onto the media channel (instead of the ringer channel) works by playing
  * a short, high-quality, silent html audio track continuously when web audio is playing.
- * 
+ *
  * iOS Only: Hiding the media playback widgets on iOS is accomplished by completely nuking the silent
  * html audio track whenever the app isn't in the foreground.
- * 
+ *
  * iOS detection is done by looking at the user agent for iPhone, iPod, iPad. This detects the phones fine, but
- * apple likes to pretend their new iPads are computers (lol right..). Newer iPads are detected by finding 
+ * apple likes to pretend their new iPads are computers (lol right..). Newer iPads are detected by finding
  * mac osx in the user agent and then checking for touch support by testing navigator.maxTouchPoints > 0.
- * 
+ *
  * This is all really gross and apple should really fix their janky browser.
  * This code isn't optimized in any fashion, it is just whipped up to help someone out on stack overflow, its just meant as an example.
  */
 
+
+type EventHandlerNonNull = (event: Event) => void;
 
 /**
  * Enables unmute.
@@ -35,7 +37,7 @@
  * @param forceIOSBehavior Optional. Default false. Forces behavior to that which is on iOS. This *could* be used in the event the iOS detection fails (which it shouldn't). It is strongly recommended NOT to use this.
  * @returns An object containing a dispose function which can be used to dispose of the unmute controller.
  */
-function unmute(context:AudioContext, allowBackgroundPlayback:boolean = false, forceIOSBehavior:boolean = false):{ dispose:{ ():void; }}
+export default function iosunmute(context:AudioContext, allowBackgroundPlayback:boolean = false, forceIOSBehavior:boolean = false):{ dispose:{ ():void; }}
 {
 	//#region Helpers
 	// Determine the page visibility api
@@ -178,7 +180,7 @@ function unmute(context:AudioContext, allowBackgroundPlayback:boolean = false, f
 	 * A utility function for decompressing the base64 silence string. A poor-mans implementation of huffman decoding.
 	 * @param count The number of times the string is repeated in the string segment.
 	 * @param repeatStr The string to repeat.
-	 * @returns The 
+	 * @returns The
 	 */
 	function huffman(count:number, repeatStr:string):string { let e:string = repeatStr; for (; count > 1; count--) e += repeatStr; return e; }
 

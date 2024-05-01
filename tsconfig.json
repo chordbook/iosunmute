@@ -36,7 +36,7 @@
 		"pretty": true,								// Should be true, allows tsc console output formatting, useful for clicking errors
 
 		// Compiler Options
-		"target": "ES5",							// Leave as es5, es6 and greater actually generates less performant code
+		"target": "esnext",							// Leave as es5, es6 and greater actually generates less performant code
 		"skipLibCheck": true,						// Should be true, skip checking *.d.ts files, Speeds up compilation
 		"incremental": false,						// Should be true for game code, note that outFile breaks incremental
 		"noEmitOnError": true,						// Should be true, don't bother emitting if there is broken code
@@ -45,7 +45,7 @@
 		"newLine": "LF",							// Use Unix style line endings
 		"noEmitHelpers": true,						// Leave as false, we generate these on our own
 		"declaration": false,						// Don't emit declarations in most cases
-		"lib": ["es5", "dom"],						// Don't use extended libraries
+		"lib": ["esnext", "dom"],						// Don't use extended libraries
 		"types": []									// Ignore types in node_modules/@[type]
 	}
 }
