@@ -1,6 +1,6 @@
 {
   "name": "iosunmute",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "type": "module",
   "module": "dist/iosunmute.js",
