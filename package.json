@@ -4,17 +4,16 @@
   "description": "",
   "type": "module",
   "module": "dist/iosunmute.js",
-  "main": "dist/iosunmute.cjs",
-  "unpkg": "dist/iosunmute.global.js",
+  "main": "dist/iosunmute.umd.cjs",
   "exports": {
     "import": "./dist/iosunmute.js",
-    "require": "./dist/iosunmute.cjs"
+    "require": "./dist/iosunmute.umd.cjs"
   },
   "types": "dist/iosunmute.d.ts",
   "sideEffects": false,
   "scripts": {
     "dev": "vite",
-    "prepare": "tsup src/iosunmute.ts --format iife,esm,cjs --minify --dts --sourcemap --global-name iosunmute",
+    "prepare": "tsup src/iosunmute.ts --clean --format esm --minify --dts --sourcemap && npx esm2umd iosunmute dist/iosunmute.js > dist/iosunmute.umd.cjs",
     "build": "vite build --outDir demo",
     "preview": "vite preview",
     "test": "vitest"

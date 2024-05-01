@@ -54,11 +54,7 @@ npm install iosunmute
 ```
 
 ```javascript
-// ESM
 import iosunmute from 'iosunmute';
-
-// CJS
-const iosunmute = require('iosunmute');
 ```
 
 ## Usage
